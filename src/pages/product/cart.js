@@ -3,10 +3,16 @@ import IconDelete from "../../assets/icon/delete";
 import EmptyImage from "../../assets/img/empty_order.png";
 import { config } from "../../config";
 import { useDispatch, useSelector } from "react-redux";
-import { addQty, deleteCart, minQty } from "../../features/cart/actions";
+import {
+  addQty,
+  checkoutData,
+  deleteCart,
+  minQty,
+} from "../../features/cart/actions";
 export default function Cart() {
   const dispatch = useDispatch();
   const carts = useSelector((state) => state.cart);
+  console.log("carts", carts);
   return (
     <div className="col-span-3 xl:col-span-1 pr-4 pl-0 xl:pl-9 sm:pr-9 relative h-auto xl:h-screen overflow-scroll py-9">
       <div className="flex justify-between">
@@ -44,7 +50,9 @@ export default function Cart() {
                     <p className="text-black font-bold text-base whitespace-nowrap w-48 overflow-hidden overflow-ellipsis">
                       {items.auhtor}
                     </p>
-                    <p className="text-base font-semibold my-1">$99.70</p>
+                    <p className="text-base font-semibold my-1">
+                      ${items.price}
+                    </p>
                     <p className="text-gray-culture font-medium text-sm">
                       Stock : {items.stock}
                     </p>
@@ -58,7 +66,7 @@ export default function Cart() {
                       </button>
                       <span className="mx-4">{items.jumlah}</span>
                       <button
-                        onClick={() => dispatch(addQty(index))}
+                        onClick={() => dispatch(addQty(index, items.id))}
                         className="btn_circle"
                         style={{ height: "17px", width: "17px" }}
                       >
@@ -76,11 +84,16 @@ export default function Cart() {
       <div className="static mt-10 xl:mt-0 xl:absolute bottom-4 left-1/2 xl:transform xl:-translate-x-1/2 xl:w-11/12">
         <div className="flex items-center justify-between rounded-lg bg-gray-culture p-4 bg-opacity-20">
           <p>Total Payment </p>
-          <p> $ 0</p>
+          <p> $ {carts?.data?.reduce((n, { price }) => n + price, 0)}</p>
         </div>
         <div>
-          <button className="btn-violet flex items-center justify-center text-xl">
-            Checkout&nbsp;<span className="font-light">(0 Book)</span>
+          <button
+            className="btn-violet flex items-center justify-center text-xl"
+            type="button"
+            onClick={() => dispatch(checkoutData(carts))}
+          >
+            Checkout&nbsp;
+            <span className="font-light">({carts.data.length} Book)</span>
           </button>
         </div>
       </div>

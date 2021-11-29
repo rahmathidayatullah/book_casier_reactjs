@@ -11,9 +11,6 @@ export default function Login() {
     clearErrors,
   } = useForm();
 
-  console.log("watch func", watch());
-  console.log("formState", errors);
-
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -49,7 +46,7 @@ export default function Login() {
           <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
             <input
               {...register("email", {
-                required: "error message email",
+                required: "error can't be empty",
               })}
               onChange={handleChange}
               value={form.email}
@@ -58,10 +55,12 @@ export default function Login() {
               placeholder="Email"
               className="py-4 px-6 shadow w-full"
             />
-            {errors.email && <p>{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-500 mt-2">{errors.email.message}</p>
+            )}
             <input
               {...register("password", {
-                required: "error message password",
+                required: "password can't be empty",
               })}
               onChange={handleChange}
               value={form.password}
@@ -71,7 +70,9 @@ export default function Login() {
               className="py-4 px-6 shadow w-full mt-5"
             />
 
-            {errors.password && <p>{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-500 mt-2">{errors.password.message}</p>
+            )}
 
             <button
               type="submit"
