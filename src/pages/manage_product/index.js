@@ -24,9 +24,16 @@ export default function ManageProduct() {
   const [show, setShow] = useState(false);
   const [showSukses, setShowSukses] = useState(false);
 
-  const handleDelete = (id) => {
+  const [productId, setProductId] = useState("");
+
+  const handleDelete = () => {
     setShow(!show);
-    dispatch(deleteProduct(id));
+    dispatch(deleteProduct(productId));
+  };
+
+  const handleShowModalDelete = (id) => {
+    setShow(!show);
+    setProductId(id);
   };
 
   useEffect(() => {
@@ -118,7 +125,9 @@ export default function ManageProduct() {
                             </p>
                           </div>
                           <div className="absolute top-4 right-8">
-                            <IconDelete onClick={() => setShow(!show)} />
+                            <IconDelete
+                              onClick={() => handleShowModalDelete(product.id)}
+                            />
 
                             <IconEdit
                               onClick={() =>
