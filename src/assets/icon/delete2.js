@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function Delete2({ onClick }) {
+export default function Delete2({ onClick, className }) {
   return (
     <svg
       onClick={onClick}
-      className="cursor-pointer"
+      className={`cursor-pointer ${className ? className : ""}`}
       width="20"
       height="22"
       viewBox="0 0 20 22"

@@ -1,24 +1,63 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProduct, searchByKeyword } from "../../features/product/actions";
+import {
+  deleteProduct,
+  fetchProduct,
+  fetchProductOne,
+  searchByKeyword,
+} from "../../features/product/actions";
 import IconDelete from "../../assets/icon/delete2";
 import IconEdit from "../../assets/icon/edit";
 import IconSearch from "../../assets/icon/search";
+
 import { config } from "../../config";
 import moment from "moment";
 import Form from "./form";
+import Notification from "../../components/Notif";
+import NotifDelete from "../../components/Notif/delete";
+import NotifAdd from "../../components/Notif/add";
+import { clearStateAfterPost } from "../../features/manage_product/actions";
 export default function ManageProduct() {
   const dispatch = useDispatch();
+  const manages = useSelector((state) => state.manage);
   const products = useSelector((state) => state.product);
-  console.log("products", products);
+  const [show, setShow] = useState(false);
+  const [showSukses, setShowSukses] = useState(false);
+
+  const handleDelete = (id) => {
+    setShow(!show);
+    dispatch(deleteProduct(id));
+  };
+
   useEffect(() => {
     dispatch(fetchProduct());
-  }, [dispatch, products.keyword, products.category]);
+    if (manages.data.data) {
+      setShowSukses(true);
+      setTimeout(() => {
+        setShowSukses(false);
+        // clear data reducer
+        dispatch(clearStateAfterPost());
+      }, 3000);
+    }
+  }, [
+    dispatch,
+    products.keyword,
+    products.category,
+    manages.data,
+    products.deleteData,
+    products.updateData,
+  ]);
   return (
     <div className="pl-24 sm:pl-32">
+      {/* berhasil add data */}
+      <Notification show={showSukses}>
+        <NotifAdd closeNotif={() => setShowSukses(!showSukses)} />
+      </Notification>
       <div className="grid grid-cols-3">
         <div className="col-span-3 xl:col-span-2 pr-4 sm:pr-9 py-9 border-r overflow-scroll h-auto xl:h-screen relative">
-          <p className="text-xl">Book Managment</p>
+          <p className="text-xl" onClick={() => setShowSukses(!showSukses)}>
+            Book Managment
+          </p>
 
           <div className="relative mt-8 group text-gray-culture focus-within:text-violet-purple duration-300">
             <input
@@ -41,6 +80,13 @@ export default function ManageProduct() {
                 : products.data.map((product, index) => {
                     return (
                       <li className="mt-4" key={index}>
+                        {/* delete */}
+                        <Notification show={show}>
+                          <NotifDelete
+                            handleDelete={() => handleDelete(product.id)}
+                            closeNotif={() => setShow(!show)}
+                          />
+                        </Notification>
                         <div className="shadow-1xl p-2 flex items-start rounded-lg relative">
                           <div
                             className="h-full rounded-lg overflow-hidden"
@@ -72,9 +118,13 @@ export default function ManageProduct() {
                             </p>
                           </div>
                           <div className="absolute top-4 right-8">
-                            <IconDelete />
+                            <IconDelete onClick={() => setShow(!show)} />
 
-                            <IconEdit />
+                            <IconEdit
+                              onClick={() =>
+                                dispatch(fetchProductOne(product.id))
+                              }
+                            />
                           </div>
                         </div>
                       </li>

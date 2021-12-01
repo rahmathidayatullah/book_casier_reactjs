@@ -14,6 +14,8 @@ import {
   SUCCESS_GET_ONE_PRODUCT,
   SUCCESS_SEND_IMAGE_CHANGE,
   SUCCESS_UPDATE_PRODUCT,
+  CLEAR_STATE_AFTER_POST,
+  CLEAR_STATE_AFTER_UPDATE,
 } from "./constants";
 
 const statuslist = {
@@ -37,6 +39,16 @@ export default function reducer(state = initialState, action) {
         ...state,
         status: statuslist.success,
         data: action.payload,
+      };
+    case CLEAR_STATE_AFTER_POST:
+      return {
+        ...state,
+        data: [],
+      };
+    case CLEAR_STATE_AFTER_UPDATE:
+      return {
+        ...state,
+        data: [],
       };
     case SUCCESS_DELETE_PRODUCT:
       return {

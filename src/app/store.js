@@ -5,6 +5,8 @@ import productReducer from "../features/product/reducers";
 import categoryReducer from "../features/category/reducers";
 import cartReducer from "../features/cart/reducers";
 import manageProductReducer from "../features/manage_product/reducers";
+import transactionReducer from "../features/transactions/reducers";
+import dashboardReducer from "../features/dashboard/reducers";
 
 // (2) import redux-thunk middleware
 import thunk from "redux-thunk";
@@ -18,6 +20,8 @@ const rootReducers = combineReducers({
   category: categoryReducer,
   cart: cartReducer,
   manage: manageProductReducer,
+  transaction: transactionReducer,
+  dashboard: dashboardReducer,
 });
 
 // (5) buat store, dan gunakan composerEnhancer + middleware thunk

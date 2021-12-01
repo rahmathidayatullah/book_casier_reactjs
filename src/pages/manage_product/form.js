@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Book_default from "../../assets/icon/book_default";
 import { changeImageApi } from "../../features/manage_product/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { postProduct } from "../../features/manage_product/actions";
+import { fetchCategory } from "../../features/category/actions";
+import { updateProduct } from "../../features/product/actions";
+import moment from "moment";
+import { config } from "../../config";
 export default function Form() {
+  const categories = useSelector((state) => state.category);
+  const products = useSelector((state) => state.product);
+  const manages = useSelector((state) => state.manage);
+  // console.log("products", products);
+
+  const [updateEvent, setUpdateEvent] = useState(false);
+  const [idProduct, setIdProduct] = useState("");
+
   const dispatch = useDispatch();
-  const manageProducts = useSelector((state) => state.manage);
-  // console.log("manageProducts", manageProducts);
   const {
     register,
     handleSubmit,
@@ -16,9 +26,6 @@ export default function Form() {
     clearErrors,
   } = useForm();
 
-  // console.log("watch", watch());
-  // console.log("errors", errors);
-
   const [form, setForm] = useState({
     // for image
     cover: "",
@@ -26,14 +33,12 @@ export default function Form() {
     // end image
 
     title: "",
-    author: "",
+    auhtor: "",
     published: "",
     price: "",
     stock: "",
     category: "",
   });
-
-  // console.log("form", form);
 
   const [errorImage, setErrorImage] = useState(false);
 
@@ -42,8 +47,9 @@ export default function Form() {
     if (name === "cover") {
       let reader = new FileReader();
       let file = e.target.files[0];
-      const fileSize = file.size / 1024 / 1024; // in MiB
-      if (fileSize > 2) {
+      const fileSize = file.size / 1024; // in MiB
+      console.log("fileSize", fileSize);
+      if (fileSize > 1000) {
         alert("File size exceeds 2 MiB");
       } else {
         reader.onloadend = () => {
@@ -62,8 +68,62 @@ export default function Form() {
 
   const onSubmit = () => {
     dispatch(postProduct(form));
+    setForm({
+      cover: "",
+      file: "",
+      title: "",
+      auhtor: "",
+      published: "",
+      price: "",
+      stock: "",
+      category: "",
+    });
   };
 
+  const handleUpdate = () => {
+    // return value boolean
+    const isEmpty = Object.values(form).every((x) => x !== "");
+    if (!isEmpty) {
+      alert("harus isi semua field");
+    } else {
+      dispatch(updateProduct(idProduct, form));
+      setForm({
+        cover: "",
+        file: "",
+        title: "",
+        auhtor: "",
+        published: "",
+        price: "",
+        stock: "",
+        category: "",
+      });
+    }
+  };
+
+  useEffect(() => {
+    // get list category for list select option
+    dispatch(fetchCategory());
+  }, []);
+
+  useEffect(() => {
+    if (products.oneData.data) {
+      setUpdateEvent(true);
+      setIdProduct(products.oneData.data.id);
+      setForm({
+        // for image
+        cover: products.oneData.data.cover,
+        file: "default",
+        // end image
+
+        title: products.oneData.data.title,
+        auhtor: products.oneData.data.auhtor,
+        published: moment(products.oneData.data.published).format("YYYY-MM-DD"),
+        price: products.oneData.data.price,
+        stock: products.oneData.data.stock,
+        category: products.oneData.data.category,
+      });
+    }
+  }, [products.oneData]);
   return (
     <div className="col-span-3 xl:col-span-1 pr-4 pl-0 xl:pl-9 sm:pr-9 relative h-auto xl:h-screen overflow-scroll py-9">
       <div className="flex justify-between">
@@ -95,7 +155,11 @@ export default function Form() {
         )}
 
         <div>
-          <img src={form.cover && form.cover} />
+          {/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(form.cover) ? (
+            <img src={config.api_image + form.cover} />
+          ) : (
+            <img src={form.cover && form.cover} />
+          )}
         </div>
 
         <div className="mt-3">
@@ -116,18 +180,18 @@ export default function Form() {
         </div>
         <div className="mt-3">
           <input
-            {...register("author", {
-              required: "author can't be empty",
+            {...register("auhtor", {
+              required: "auhtor can't be empty",
             })}
             value={form.auhtor}
-            name="author"
+            name="auhtor"
             type="text"
             onChange={handleChange}
             placeholder="Book author/publisher"
             className="input-field"
           />
-          {errors.author && (
-            <p className="text-red-500 mt-2">{errors.author.message}</p>
+          {errors.auhtor && (
+            <p className="text-red-500 mt-2">{errors.auhtor.message}</p>
           )}
         </div>
         <div className="mt-3">
@@ -143,8 +207,17 @@ export default function Form() {
             id="category"
           >
             <option value="">Select category</option>
-            <option value="1">category 1</option>
-            <option value="2">category 2</option>
+            {categories.status === "process"
+              ? "loading"
+              : categories.status === "success"
+              ? categories.data.map((category, index) => {
+                  return (
+                    <option key={index} value={category.id}>
+                      {category.name}
+                    </option>
+                  );
+                })
+              : "error"}
           </select>
           {errors.category && (
             <p className="text-red-500 mt-2">{errors.category.message}</p>
@@ -199,9 +272,15 @@ export default function Form() {
           )}
         </div>
 
-        <button type="submit" className="btn-violet">
-          Submit
-        </button>
+        {updateEvent ? (
+          <button type="button" onClick={handleUpdate} className="btn-violet">
+            Submit
+          </button>
+        ) : (
+          <button type="submit" className="btn-violet">
+            Submit
+          </button>
+        )}
       </form>
     </div>
   );

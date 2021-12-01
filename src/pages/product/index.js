@@ -32,7 +32,7 @@ export default function Product() {
   };
   useEffect(() => {
     dispatch(fetchProduct());
-  }, [dispatch, products.keyword, products.category]);
+  }, [dispatch, products.keyword, products.category, products.updateData]);
   return (
     <div className="pl-24 sm:pl-32">
       <div className="grid grid-cols-3">

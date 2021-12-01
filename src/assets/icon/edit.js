@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function Edit({ onClick }) {
+export default function Edit({ onClick, className }) {
   return (
     <svg
       onClick={onClick}
-      className="cursor-pointer mt-6"
+      className={`cursor-pointer ${className}`}
       width="19"
       height="19"
       viewBox="0 0 19 19"
@@ -18,3 +18,7 @@ export default function Edit({ onClick }) {
     </svg>
   );
 }
+
+Edit.defaultProps = {
+  className: "mt-6",
+};

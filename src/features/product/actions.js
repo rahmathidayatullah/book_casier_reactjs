@@ -125,13 +125,16 @@ export const postProduct = (data) => {
   };
 };
 
-export const updateProduct = (id, data) => {
+export const updateProduct = (id, form) => {
   return async (dispatch) => {
     dispatch({
       type: START_UPDATE_PRODUCT,
     });
+
+    // console.log("id", id);
+    // console.log("form", form);
     try {
-      let { data } = await axios.put(`${config.api_host}products/${id}`, data, {
+      let { data } = await axios.put(`${config.api_host}products/${id}`, form, {
         headers: {
           authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjoxLCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM3ODU0ODU3fQ.VncotZISc7kfB18Rc5FV0EFS545Ha52fJKSfv-H9dmQ`,
         },

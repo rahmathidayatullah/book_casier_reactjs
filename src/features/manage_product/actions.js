@@ -16,6 +16,7 @@ import {
   SUCCESS_GET_ONE_PRODUCT,
   SUCCESS_SEND_IMAGE_CHANGE,
   SUCCESS_UPDATE_PRODUCT,
+  CLEAR_STATE_AFTER_POST,
 } from "./constants";
 
 export const changeImageApi = (value) => {
@@ -40,7 +41,7 @@ export const changeImageApi = (value) => {
     } catch (error) {
       dispatch({
         type: ERROR_SEND_IMAGE_CHANGE,
-        payload: error,
+        payload: error.response.data.msg,
       });
     }
   };
@@ -51,9 +52,8 @@ export const postProduct = (data) => {
       type: START_CREATE_PRODUCT,
     });
 
+    // get data from func api changeImage
     let dataImageChange = getState().manage.imageChangeRes.image.src;
-    // console.log("forms s s", data);
-    // console.log("dataImageChange", dataImageChange);
 
     let sendData = { ...data, cover: dataImageChange };
 
@@ -73,5 +73,11 @@ export const postProduct = (data) => {
         payload: error,
       });
     }
+  };
+};
+
+export const clearStateAfterPost = () => {
+  return {
+    type: CLEAR_STATE_AFTER_POST,
   };
 };

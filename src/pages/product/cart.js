@@ -12,7 +12,6 @@ import {
 export default function Cart() {
   const dispatch = useDispatch();
   const carts = useSelector((state) => state.cart);
-  console.log("carts", carts);
   return (
     <div className="col-span-3 xl:col-span-1 pr-4 pl-0 xl:pl-9 sm:pr-9 relative h-auto xl:h-screen overflow-scroll py-9">
       <div className="flex justify-between">
