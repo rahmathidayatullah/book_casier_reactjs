@@ -10,8 +10,17 @@ import ListCategory from "../../components/ListCategory";
 export default function Product() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product);
+  console.log("products", products);
   const carts = useSelector((state) => state.cart.data);
   const cartss = useSelector((state) => state.cart);
+
+  const handleAddToCart = (stock, product, productIds) => {
+    if (stock === 0) {
+      alert("stock habis");
+    } else {
+      addToCart(product, productIds);
+    }
+  };
 
   const addToCart = (product, id) => {
     let dataProduct = { ...product, jumlah: 1 };
@@ -68,9 +77,15 @@ export default function Product() {
                 : products.data.map((product, index) => {
                     return (
                       <div
-                        className="card col-span-6 md:col-span-3 lg:col-span-2"
+                        className={`card col-span-6 md:col-span-3 lg:col-span-2 ${
+                          product.stock === 0
+                            ? "cursor-not-allowed"
+                            : "cursor-pointer"
+                        }`}
                         key={index}
-                        onClick={() => addToCart(product, product.id)}
+                        onClick={() =>
+                          handleAddToCart(product.stock, product, product.id)
+                        }
                       >
                         <img
                           className="w-1/2 mx-auto"

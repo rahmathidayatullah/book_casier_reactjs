@@ -36,7 +36,7 @@ code {
   }
 
   .card {
-    @apply px-3 py-6 flex flex-col shadow-1xl rounded-lg cursor-pointer relative overflow-hidden
+    @apply px-3 py-6 flex flex-col shadow-1xl rounded-lg relative overflow-hidden
   }
 }
 
