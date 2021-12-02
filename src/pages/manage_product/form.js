@@ -166,7 +166,15 @@ export default function Form() {
                     type="file"
                     accept="image/*"
                   />
-                  <img src={config.api_image + form.cover} />
+                  <img
+                    style={{
+                      maxWidth: "130px",
+                      height: "150px",
+                      border: "1px solid #e4e4e4",
+                      borderRadius: "20px",
+                    }}
+                    src={config.api_image + form.cover}
+                  />
                 </div>
               ) : (
                 <div className="relative">
@@ -177,7 +185,15 @@ export default function Form() {
                     type="file"
                     accept="image/*"
                   />
-                  <img src={form.cover && form.cover} />
+                  <img
+                    style={{
+                      maxWidth: "130px",
+                      height: "150px",
+                      border: "1px solid #e4e4e4",
+                      borderRadius: "20px",
+                    }}
+                    src={form.cover && form.cover}
+                  />
                 </div>
               )}
             </div>
