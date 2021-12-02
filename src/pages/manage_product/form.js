@@ -10,6 +10,7 @@ import moment from "moment";
 import { config } from "../../config";
 export default function Form() {
   const categories = useSelector((state) => state.category);
+  console.log("categories", categories);
   const products = useSelector((state) => state.product);
   const manages = useSelector((state) => state.manage);
   // console.log("products", products);
@@ -39,6 +40,8 @@ export default function Form() {
     stock: "",
     category: "",
   });
+
+  console.log("form", form);
 
   const [errorImage, setErrorImage] = useState(false);
 
@@ -134,33 +137,55 @@ export default function Form() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="rounded-lg shadow-1xl flex flex-col items-center justify-center py-24 mt-8">
-          <Book_default />
-          <div className="relative">
-            <input
-              onChange={handleChange}
-              name="cover"
-              className="opacity-0 absolute inset-0 cursor-pointer"
-              type="file"
-              accept="image/*"
-            />
-            <p className="text-center text-gray-culture mt-2">
-              Click to select image
-              <br />
-              100 x 80 pixels
-            </p>
-          </div>
-        </div>
-        {!errorImage && (
-          <p className="text-red-500 mt-2">Image tidak boleh kosong</p>
-        )}
-
-        <div>
-          {/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(form.cover) ? (
-            <img src={config.api_image + form.cover} />
+          {form.cover === "" ? (
+            <div className="flex flex-col items-center justify-center">
+              <Book_default />
+              <div className="relative">
+                <input
+                  onChange={handleChange}
+                  name="cover"
+                  className="opacity-0 absolute inset-0 cursor-pointer"
+                  type="file"
+                  accept="image/*"
+                />
+                <p className="text-center text-gray-culture mt-2">
+                  Click to select image
+                  <br />
+                  100 x 80 pixels
+                </p>
+              </div>
+            </div>
           ) : (
-            <img src={form.cover && form.cover} />
+            <div>
+              {/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(form.cover) ? (
+                <div className="relative">
+                  <input
+                    onChange={handleChange}
+                    name="cover"
+                    className="opacity-0 absolute inset-0 cursor-pointer"
+                    type="file"
+                    accept="image/*"
+                  />
+                  <img src={config.api_image + form.cover} />
+                </div>
+              ) : (
+                <div className="relative">
+                  <input
+                    onChange={handleChange}
+                    name="cover"
+                    className="opacity-0 absolute inset-0 cursor-pointer"
+                    type="file"
+                    accept="image/*"
+                  />
+                  <img src={form.cover && form.cover} />
+                </div>
+              )}
+            </div>
           )}
         </div>
+        {/* {!errorImage && (
+          <p className="text-red-500 mt-2">Image tidak boleh kosong</p>
+        )} */}
 
         <div className="mt-3">
           <input

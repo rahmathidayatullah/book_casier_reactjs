@@ -47,6 +47,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         loadingGetOne: false,
         dataGetOne: action.payload,
+        totalSumPrice: action.sumPriceAll,
       };
     case ERROR_ONE_TRANSACTION:
       return {

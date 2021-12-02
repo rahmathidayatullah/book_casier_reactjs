@@ -30,6 +30,7 @@ export default function Product() {
     // simpan data cart ke locastorage
     localStorage.setItem("dataCart", JSON.stringify(dataCart));
   };
+
   useEffect(() => {
     dispatch(fetchProduct());
   }, [dispatch, products.keyword, products.category, products.updateData]);
@@ -86,7 +87,9 @@ export default function Product() {
                           <p className="text-sm font-medium text-gray-culture whitespace-nowrap w-36 overflow-hidden overflow-ellipsis">
                             Author : {product.auhtor}
                           </p>
-                          <p className="text-base font-semibold">$2.70</p>
+                          <p className="text-base font-semibold">
+                            ${product.price}
+                          </p>
                         </div>
                         <div className="hover-content"></div>
                         <p className="text-hover">Add to cart</p>

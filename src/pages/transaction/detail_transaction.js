@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import IconEmpty from "../../assets/img/empty_transaction.png";
 import moment from "moment";
 export default function DetailTransaction() {
-  const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transaction);
   console.log("detail com", transactions);
 
@@ -29,14 +28,14 @@ export default function DetailTransaction() {
           return (
             <div key={index} className="py-6 px-5 shadow-1xl mt-4">
               <div className="flex justify-between pb-4 border-b">
-                <p className="text-base">ID : {items.id}</p>
+                <p className="text-base">ID : {items.invoice}</p>
                 <p className="text-base">
                   {moment(items.date).format("DD MMMM YYYY LT")}
                 </p>
               </div>
 
               <p className="text-violet-purple font-bold text-base mt-6">
-                $35.00 Payment
+                ${transactions.totalSumPrice} Payment
               </p>
 
               <ul className="mt-16">
@@ -52,7 +51,9 @@ export default function DetailTransaction() {
                             ${itm.priceProduct} x {itm.quantity}
                           </p>
                         </div>
-                        <p className="text-base text-gray-culture">$5.40</p>
+                        <p className="text-base text-gray-culture">
+                          ${itm.priceProduct * itm.quantity}
+                        </p>
                       </div>
                     </li>
                   );
@@ -60,13 +61,15 @@ export default function DetailTransaction() {
               </ul>
               <div className="flex justify-between mt-10">
                 <p className="text-base font-bold text-red-dragon">Total</p>
-                <p className="text-base font-bold text-red-dragon">$35.00</p>
+                <p className="text-base font-bold text-red-dragon">
+                  ${transactions.totalSumPrice}
+                </p>
               </div>
             </div>
           );
         })
       ) : (
-        ""
+        "error"
       )}
     </div>
   );

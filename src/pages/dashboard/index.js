@@ -20,7 +20,7 @@ export default function Dashboard() {
   console.log("dashboards", dashboards);
   const data = [
     {
-      name: "Page A",
+      name: "Page Ads",
       uv: 4000,
       pv: 2400,
     },
@@ -45,7 +45,7 @@ export default function Dashboard() {
       pv: 4800,
     },
     {
-      name: "Page F",
+      name: <span>tes</span>,
       uv: 2390,
       pv: 3800,
     },
@@ -118,14 +118,38 @@ export default function Dashboard() {
       <div className="w-full">
         <div className="grid grid-cols-7 gap-4 mt-4">
           <div className="col-span-7 xl:col-span-4 h-72 shadow-1xl rounded-lg flex items-center justify-center">
-            <BarChart width={730} height={250} data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
+            <BarChart
+              width={730}
+              height={250}
+              data={data}
+              margin={{
+                top: 20,
+                right: 200,
+                left: 200,
+                bottom: 40,
+              }}
+              barGap={2}
+              barSize={10}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke />
+              <XAxis
+                dataKey="name"
+                padding={{ left: 10, right: 10 }}
+                fontSize={10}
+              />
+              <YAxis padding={10} />
               <Tooltip />
-              <Legend />
-              <Bar dataKey="pv" fill="#8884d8" />
-              <Bar dataKey="uv" fill="#82ca9d" />
+              <Legend stroke={0} />
+              <Bar
+                fontSize={100}
+                wordSpacing={100}
+                dataKey="pv"
+                radius={10}
+                widths={10}
+                width={10}
+                fill="#8884d8"
+              />
+              <Bar dataKey="uv" radius={10} fill="red" />
             </BarChart>
           </div>
           <div className="col-span-7 xl:col-span-3 h-72 shadow-1xl rounded-lg flex items-center justify-center">

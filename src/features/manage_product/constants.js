@@ -32,6 +32,7 @@ export const SUCCESS_UPDATE_PRODUCT =
   "features/manage_product/SUCCESS_UPDATE_PRODUCT";
 export const ERROR_UPDATE_PRODUCT =
   "features/manage_product/ERROR_UPDATE_PRODUCT";
+
 export const CLEAR_STATE_AFTER_POST =
   "features/manage_product/CLEAR_STATE_AFTER_POST";
 export const CLEAR_STATE_AFTER_UPDATE =

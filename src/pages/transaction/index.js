@@ -12,11 +12,9 @@ import moment from "moment";
 export default function Transaction() {
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transaction);
-
   console.log("transactions", transactions);
 
   const handleGetDetail = (id) => {
-    // get detail
     dispatch(getOneTransaction(id));
   };
 

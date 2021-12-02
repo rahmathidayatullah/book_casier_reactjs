@@ -94,6 +94,7 @@ export default function ManageProduct() {
                             closeNotif={() => setShow(!show)}
                           />
                         </Notification>
+
                         <div className="shadow-1xl p-2 flex items-start rounded-lg relative">
                           <div
                             className="h-full rounded-lg overflow-hidden"
@@ -121,7 +122,7 @@ export default function ManageProduct() {
                               Author : {product.auhtor}
                             </p>
                             <p className="font-semibold text-black text-base">
-                              $99.70
+                              ${product.price}
                             </p>
                           </div>
                           <div className="absolute top-4 right-8">

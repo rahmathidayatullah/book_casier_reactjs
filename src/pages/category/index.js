@@ -23,6 +23,9 @@ export default function Category() {
     clearErrors,
   } = useForm();
 
+  const category = useSelector((state) => state.category);
+  console.log("category", category);
+
   const [form, setForm] = useState({
     name: "",
   });
@@ -30,16 +33,11 @@ export default function Category() {
   const [updateEvent, setUpdateEvent] = useState(false);
   const [idCategory, setIdCategory] = useState("");
 
-  const category = useSelector((state) => state.category);
-  console.log("category", category);
-
   const handleDelete = (id) => {
-    // here delete
     dispatch(deleteCategoryApi(id));
   };
 
   const handleUpdate = (id) => {
-    // here update
     setIdCategory(id);
     dispatch(getOneCategory(id));
   };
@@ -47,7 +45,6 @@ export default function Category() {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-
     setForm({ ...form, [name]: value });
   };
 
@@ -59,7 +56,6 @@ export default function Category() {
   };
 
   const handleUpdatePost = () => {
-    // return value boolean
     const isEmpty = Object.values(form).every((x) => x !== "");
     if (!isEmpty) {
       alert("harus isi semua field");
