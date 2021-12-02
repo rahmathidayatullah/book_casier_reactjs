@@ -58,18 +58,18 @@ export default function reducer(state = initialState, action) {
     case START_ONE_PRODUCT:
       return {
         ...state,
-        status: statuslist.process,
+        loadingOneProduct: true,
       };
     case SUCCESS_ONE_PRODUCT:
       return {
         ...state,
-        status: statuslist.success,
+        loadingOneProduct: false,
         oneData: action.payload,
       };
     case ERROR_ONE_PRODUCT:
       return {
         ...state,
-        status: statuslist.error,
+        loadingOneProduct: "error",
       };
     case START_DELETE_PRODUCT:
       return {
