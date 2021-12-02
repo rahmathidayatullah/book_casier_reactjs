@@ -20,7 +20,9 @@ import { clearStateAfterPost } from "../../features/manage_product/actions";
 export default function ManageProduct() {
   const dispatch = useDispatch();
   const manages = useSelector((state) => state.manage);
+  console.log("manages", manages);
   const products = useSelector((state) => state.product);
+  console.log("products", products);
   const [show, setShow] = useState(false);
   const [showSukses, setShowSukses] = useState(false);
 
@@ -61,7 +63,7 @@ export default function ManageProduct() {
         <NotifAdd closeNotif={() => setShowSukses(!showSukses)} />
       </Notification>
       <div className="grid grid-cols-3">
-        <div className="col-span-3 xl:col-span-2 pr-4 sm:pr-9 py-9 border-r overflow-scroll h-auto xl:h-screen relative">
+        <div className="col-span-3 xl:col-span-2 pr-4 sm:pr-9 py-9 border-r overflow-scroll h-auto xl:h-screen relative pl-2">
           <p className="text-xl" onClick={() => setShowSukses(!showSukses)}>
             Book Managment
           </p>

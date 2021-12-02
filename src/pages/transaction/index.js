@@ -12,7 +12,7 @@ import moment from "moment";
 export default function Transaction() {
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transaction);
-  console.log("transactions", transactions);
+  // console.log("transactions", transactions);
 
   const handleGetDetail = (id) => {
     dispatch(getOneTransaction(id));
@@ -24,7 +24,7 @@ export default function Transaction() {
   return (
     <div className="pl-24 sm:pl-32">
       <div className="grid grid-cols-3">
-        <div className="col-span-3 xl:col-span-2 pr-4 sm:pr-9 py-9 border-r overflow-scroll h-auto xl:h-screen relative">
+        <div className="col-span-3 xl:col-span-2 pr-4 sm:pr-9 py-9 border-r overflow-scroll h-auto xl:h-screen relative pl-2">
           <p className="text-xl">Transaction</p>
 
           <div className="relative mt-8 group text-gray-culture focus-within:text-violet-purple duration-300">
@@ -41,6 +41,9 @@ export default function Transaction() {
               ? "default"
               : transactions.status === "process"
               ? "process"
+              : transactions.status === "success" &&
+                transactions.data.length === 0
+              ? "data kosong"
               : transactions.status === "success"
               ? transactions.data.data.map((items, index) => {
                   return (

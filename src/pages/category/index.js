@@ -24,7 +24,7 @@ export default function Category() {
   } = useForm();
 
   const category = useSelector((state) => state.category);
-  console.log("category", category);
+  // console.log("category", category);
 
   const [form, setForm] = useState({
     name: "",
@@ -87,7 +87,7 @@ export default function Category() {
   return (
     <div className="pl-24 sm:pl-32">
       <div className="grid grid-cols-3">
-        <div className="col-span-3 xl:col-span-2 pr-4 sm:pr-9 py-9 border-r overflow-scroll h-auto xl:h-screen relative">
+        <div className="col-span-3 xl:col-span-2 pr-4 sm:pr-9 py-9 border-r overflow-scroll h-auto xl:h-screen relative pl-2">
           <p className="text-xl">Category Managment</p>
 
           <div className="relative mt-8 group text-gray-culture focus-within:text-violet-purple duration-300">

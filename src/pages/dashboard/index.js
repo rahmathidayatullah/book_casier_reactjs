@@ -17,7 +17,7 @@ import { fetchDashboard } from "../../features/dashboard/actions";
 export default function Dashboard() {
   const dispatch = useDispatch();
   const dashboards = useSelector((state) => state.dashboard);
-  console.log("dashboards", dashboards);
+  // console.log("dashboards", dashboards);
   const data = [
     {
       name: "Page Ads",

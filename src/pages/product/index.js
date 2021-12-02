@@ -11,6 +11,7 @@ export default function Product() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product);
   const carts = useSelector((state) => state.cart.data);
+  const cartss = useSelector((state) => state.cart);
 
   const addToCart = (product, id) => {
     let dataProduct = { ...product, jumlah: 1 };
@@ -33,11 +34,17 @@ export default function Product() {
 
   useEffect(() => {
     dispatch(fetchProduct());
-  }, [dispatch, products.keyword, products.category, products.updateData]);
+  }, [
+    dispatch,
+    products.keyword,
+    products.category,
+    products.updateData,
+    cartss.checkoutLoading,
+  ]);
   return (
     <div className="pl-24 sm:pl-32">
       <div className="grid grid-cols-3">
-        <div className="col-span-3 xl:col-span-2 pr-4 sm:pr-9 py-9 border-r overflow-scroll h-auto xl:h-screen">
+        <div className="col-span-3 xl:col-span-2 pr-4 sm:pr-9 py-9 border-r overflow-scroll h-auto xl:h-screen pl-2">
           {/* list category */}
           <ListCategory />
           <div className="relative mt-8 group text-gray-culture focus-within:text-violet-purple duration-300">

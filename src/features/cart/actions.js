@@ -121,6 +121,8 @@ export const checkoutData = (data) => {
         type: SUCCESS_CHECKOUT_CART,
         data,
       });
+      // set data to loca storage
+      localStorage.setItem("dataCart", JSON.stringify([]));
     } catch (error) {
       dispatch({
         type: ERROR_CHECKOUT_CART,

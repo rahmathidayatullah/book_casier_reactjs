@@ -8,6 +8,7 @@ import {
   START_CHECKOUT_CART,
   SUCCESS_CHECKOUT_CART,
   ERROR_CHECKOUT_CART,
+  CLEAR_CART,
 } from "./constants";
 
 const statuslist = {
@@ -58,12 +59,15 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         status: statuslist.process,
+        checkoutLoading: true,
       };
     case SUCCESS_CHECKOUT_CART:
       return {
         ...state,
         status: statuslist.success,
         dataCheckout: action.data,
+        data: [],
+        checkoutLoading: false,
       };
     case ERROR_CHECKOUT_CART:
       return {

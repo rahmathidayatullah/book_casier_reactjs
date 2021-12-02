@@ -10,7 +10,7 @@ import moment from "moment";
 import { config } from "../../config";
 export default function Form() {
   const categories = useSelector((state) => state.category);
-  console.log("categories", categories);
+  // console.log("categories", categories);
   const products = useSelector((state) => state.product);
   const manages = useSelector((state) => state.manage);
   // console.log("products", products);
@@ -41,7 +41,7 @@ export default function Form() {
     category: "",
   });
 
-  console.log("form", form);
+  // console.log("form", form);
 
   const [errorImage, setErrorImage] = useState(false);
 

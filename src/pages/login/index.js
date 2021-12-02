@@ -24,7 +24,7 @@ export default function Login() {
   };
 
   const onSubmit = () => {
-    console.log("form", form);
+    // console.log("form", form);
   };
 
   return (

@@ -47,7 +47,7 @@ export const getOneTransaction = (id) => {
         },
       });
 
-      console.log("data akan diolah", data);
+      // console.log("data akan diolah", data);
       let sumPriceAll = data.data[0].detailTransaction
         .map((items) => {
           return items.priceProduct * items.quantity;
