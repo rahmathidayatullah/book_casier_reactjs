@@ -11,6 +11,16 @@ export default function ListCategory() {
   }, [dispatch]);
   return (
     <ul className="flex max-w-full overflow-scroll pb-4">
+      <li
+        className={`${
+          categories.status === "idle" || categories.status === "process"
+            ? "mr-6"
+            : ""
+        }`}
+        onClick={() => dispatch(sortirByCategory(null))}
+      >
+        <a className="items-list">All Category</a>
+      </li>
       {categories.status === "idle"
         ? "idle"
         : categories.status === "process"
@@ -21,7 +31,7 @@ export default function ListCategory() {
               <li
                 key={index}
                 onClick={() => dispatch(sortirByCategory(category.id))}
-                className={`${index === 0 ? "" : "ml-6"}`}
+                className={`ml-6`}
               >
                 <a className="items-list">{category.name}</a>
               </li>

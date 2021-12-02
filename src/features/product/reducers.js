@@ -128,7 +128,7 @@ export default function reducer(state = initialState, action) {
     case SORTIR_BY_CATEGORY:
       return {
         ...state,
-        category: action.id,
+        category: action.id === null ? "" : action.id,
       };
     default:
       return state;
