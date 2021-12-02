@@ -5,6 +5,7 @@ import {
   START_ONE_TRANSACTION,
   SUCCESS_FETCHING_TRANSACTION,
   SUCCESS_ONE_TRANSACTION,
+  SEARCH_BY_KEYWORD,
 } from "./constants";
 
 const statuslist = {
@@ -17,6 +18,7 @@ const statuslist = {
 const initialState = {
   status: statuslist.idle,
   data: [],
+  keyword: "",
 };
 
 export default function reducer(state = initialState, action) {
@@ -53,6 +55,12 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         errorGetOne: true,
+      };
+
+    case SEARCH_BY_KEYWORD:
+      return {
+        ...state,
+        keyword: action.keyword,
       };
     default:
       return state;

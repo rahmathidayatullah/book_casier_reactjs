@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchTransaction,
   getOneTransaction,
+  searchByKeyword,
 } from "../../features/transactions/actions";
 import IconSearch from "../../assets/icon/search";
 import DetailTransaction from "./detail_transaction";
@@ -11,16 +12,22 @@ import moment from "moment";
 
 export default function Transaction() {
   const dispatch = useDispatch();
+  const [valueSearch, setValueSearch] = useState("");
   const transactions = useSelector((state) => state.transaction);
-  // console.log("transactions", transactions);
+  console.log("transactions", transactions);
 
   const handleGetDetail = (id) => {
     dispatch(getOneTransaction(id));
   };
 
+  const handleChangeSearch = (value) => {
+    setValueSearch(value);
+    dispatch(searchByKeyword(value));
+  };
+
   useEffect(() => {
     dispatch(fetchTransaction());
-  }, []);
+  }, [dispatch, transactions.keyword]);
   return (
     <div className="pl-24 sm:pl-32">
       <div className="grid grid-cols-3">
@@ -29,6 +36,8 @@ export default function Transaction() {
 
           <div className="relative mt-8 group text-gray-culture focus-within:text-violet-purple duration-300">
             <input
+              value={valueSearch}
+              onChange={(e) => handleChangeSearch(e.target.value)}
               type="text"
               placeholder="Search ..."
               className="input-field"
@@ -42,7 +51,7 @@ export default function Transaction() {
               : transactions.status === "process"
               ? "process"
               : transactions.status === "success" &&
-                transactions.data.length === 0
+                transactions.data.data.length === 0
               ? "data kosong"
               : transactions.status === "success"
               ? transactions.data.data.map((items, index) => {

@@ -11,3 +11,5 @@ export const ERROR_ONE_TRANSACTION =
   "features/transactions/ERROR_ONE_TRANSACTION";
 export const SUCCESS_ONE_TRANSACTION =
   "features/transactions/SUCCESS_ONE_TRANSACTION";
+
+export const SEARCH_BY_KEYWORD = "features/transactions/SEARCH_BY_KEYWORD";

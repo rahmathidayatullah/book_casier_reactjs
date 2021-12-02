@@ -7,6 +7,7 @@ import {
   START_ONE_TRANSACTION,
   SUCCESS_FETCHING_TRANSACTION,
   SUCCESS_ONE_TRANSACTION,
+  SEARCH_BY_KEYWORD,
 } from "./constants";
 
 export const fetchTransaction = () => {
@@ -15,8 +16,15 @@ export const fetchTransaction = () => {
       type: START_FETCHING_TRANSACTION,
     });
 
+    let keywordState = getState().transaction.keyword;
+
+    const params = {
+      keyword: keywordState,
+    };
+
     try {
       let { data } = await axios.get(`${config.api_host}transactions`, {
+        params,
         headers: {
           authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjo2LCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM4NDU5MjU3fQ.GGFFw2Zu3vpj-h6ozz8DYudtdS2c-OgI4tHTY9rTjdE`,
         },
@@ -64,5 +72,12 @@ export const getOneTransaction = (id) => {
         type: ERROR_ONE_TRANSACTION,
       });
     }
+  };
+};
+
+export const searchByKeyword = (keyword) => {
+  return {
+    type: SEARCH_BY_KEYWORD,
+    keyword,
   };
 };
