@@ -10,6 +10,7 @@ import Category from "./pages/category";
 import Layout from "./components/Layout";
 import { Provider } from "react-redux";
 import store from "./app/store";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const routes = [
@@ -41,12 +42,23 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
           </Routes>
+
           <Layout>
             <Routes>
               {routes &&
                 routes.map((route, i) => {
                   const { path, Component } = route;
-                  return <Route key={i} path={path} element={<Component />} />;
+                  return (
+                    <Route
+                      key={i}
+                      path={path}
+                      element={
+                        <PrivateRoute>
+                          <Component />
+                        </PrivateRoute>
+                      }
+                    />
+                  );
                 })}
             </Routes>
           </Layout>

@@ -7,8 +7,14 @@ import IconManageProduct from "../assets/icon/manage_product";
 import IconProduct from "../assets/icon/product";
 import IconTransaction from "../assets/icon/transaction";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
   return (
     <div className="fixed left-0 h-screen w-76 shadow-2xl px-7 py-9">
       <IconCasier />
@@ -64,7 +70,7 @@ export default function Sidebar() {
           </NavLink>
         </li>
       </ul>
-      <IconLogout />
+      <IconLogout onClick={handleLogout} />
     </div>
   );
 }

@@ -20,6 +20,8 @@ import {
 import axios from "axios";
 import { config } from "../../config";
 
+let token = JSON.parse(localStorage.getItem("token"));
+
 export const fetchProduct = () => {
   return async (dispatch, getState) => {
     dispatch({
@@ -38,7 +40,7 @@ export const fetchProduct = () => {
       let { data } = await axios.get(`${config.api_host}products`, {
         params,
         headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjo2LCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM4NDU5MjU3fQ.GGFFw2Zu3vpj-h6ozz8DYudtdS2c-OgI4tHTY9rTjdE`,
+          authorization: `Bearer ${token}`,
         },
       });
       dispatch({
@@ -62,7 +64,7 @@ export const fetchProductOne = (id) => {
     try {
       let { data } = await axios.get(`${config.api_host}products/${id}`, {
         headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjo2LCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM4NDU5MjU3fQ.GGFFw2Zu3vpj-h6ozz8DYudtdS2c-OgI4tHTY9rTjdE`,
+          authorization: `Bearer ${token}`,
         },
       });
       dispatch({
@@ -86,7 +88,7 @@ export const deleteProduct = (id) => {
     try {
       let { data } = await axios.delete(`${config.api_host}products/${id}`, {
         headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjo2LCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM4NDU5MjU3fQ.GGFFw2Zu3vpj-h6ozz8DYudtdS2c-OgI4tHTY9rTjdE`,
+          authorization: `Bearer ${token}`,
         },
       });
       dispatch({
@@ -110,7 +112,7 @@ export const postProduct = (data) => {
     try {
       let { data } = await axios.post(`${config.api_host}products`, data, {
         headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjo2LCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM4NDU5MjU3fQ.GGFFw2Zu3vpj-h6ozz8DYudtdS2c-OgI4tHTY9rTjdE`,
+          authorization: `Bearer ${token}`,
         },
       });
       dispatch({
@@ -142,7 +144,7 @@ export const updateProduct = (id, form) => {
         formNew,
         {
           headers: {
-            authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjo2LCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM4NDU5MjU3fQ.GGFFw2Zu3vpj-h6ozz8DYudtdS2c-OgI4tHTY9rTjdE`,
+            authorization: `Bearer ${token}`,
           },
         }
       );

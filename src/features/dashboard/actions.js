@@ -6,6 +6,8 @@ import {
   SUCCESS_FETCHING_DASHBOARD,
 } from "./constants";
 
+let token = JSON.parse(localStorage.getItem("token"));
+
 export const fetchDashboard = () => {
   return async (dispatch, getState) => {
     dispatch({
@@ -14,7 +16,7 @@ export const fetchDashboard = () => {
     try {
       let { data } = await axios.get(`${config.api_host}dashboards`, {
         headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjoxLCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM3ODU0ODU3fQ.VncotZISc7kfB18Rc5FV0EFS545Ha52fJKSfv-H9dmQ`,
+          authorization: `Bearer ${token}`,
         },
       });
       dispatch({

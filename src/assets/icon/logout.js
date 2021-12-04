@@ -1,8 +1,9 @@
 import React from "react";
 
-export default function Logout() {
+export default function Logout({ onClick }) {
   return (
     <svg
+      onClick={onClick}
       className="fixed bottom-8 text-gray-culture hover:text-violet-purple duration-300 cursor-pointer"
       width="22"
       height="20"

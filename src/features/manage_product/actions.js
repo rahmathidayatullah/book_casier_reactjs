@@ -19,6 +19,8 @@ import {
   CLEAR_STATE_AFTER_POST,
 } from "./constants";
 
+let token = JSON.parse(localStorage.getItem("token"));
+
 export const changeImageApi = (value) => {
   return async (dispatch) => {
     dispatch({
@@ -31,7 +33,7 @@ export const changeImageApi = (value) => {
 
       let { data } = await axios.post(`${config.api_host}uploads`, formData, {
         headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjo2LCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM4NDU5MjU3fQ.GGFFw2Zu3vpj-h6ozz8DYudtdS2c-OgI4tHTY9rTjdE`,
+          authorization: `Bearer ${token}`,
         },
       });
       dispatch({
@@ -60,7 +62,7 @@ export const postProduct = (data) => {
     try {
       let { data } = await axios.post(`${config.api_host}products`, sendData, {
         headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjo2LCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM4NDU5MjU3fQ.GGFFw2Zu3vpj-h6ozz8DYudtdS2c-OgI4tHTY9rTjdE`,
+          authorization: `Bearer ${token}`,
         },
       });
       dispatch({

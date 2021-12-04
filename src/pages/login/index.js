@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import imgLogin from "../../assets/img/sign.png";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
+import { useDispatch, useSelector } from "react-redux";
+import { postLogin } from "../../features/authentication/actions";
 export default function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const authentication = useSelector((state) => state.authentication);
+  console.log("authentication", authentication);
   const {
     register,
     handleSubmit,
@@ -25,7 +31,17 @@ export default function Login() {
 
   const onSubmit = () => {
     // console.log("form", form);
+    dispatch(postLogin(form));
   };
+
+  useEffect(() => {
+    if (authentication.status === "error") {
+      alert("password atau email salah");
+    }
+    if (localStorage.getItem("token")) {
+      navigate("/product");
+    }
+  }, [authentication.status]);
 
   return (
     <>
@@ -53,7 +69,7 @@ export default function Login() {
               type="email"
               name="email"
               placeholder="Email"
-              className="py-4 px-6 shadow w-full"
+              className="py-4 px-6 shadow w-full focus:outline-none"
             />
             {errors.email && (
               <p className="text-red-500 mt-2">{errors.email.message}</p>
@@ -67,7 +83,7 @@ export default function Login() {
               type="password"
               name="password"
               placeholder="Password"
-              className="py-4 px-6 shadow w-full mt-5"
+              className="py-4 px-6 shadow w-full mt-5 focus:outline-none"
             />
 
             {errors.password && (
@@ -78,7 +94,7 @@ export default function Login() {
               type="submit"
               className="py-4 px-6 shadow w-full text-center text-white font-bold text-base bg-purple-800 rounded-2xl mt-12"
             >
-              Sign in
+              {authentication.status === "process" ? "Loading .." : "Sign in"}
             </button>
           </form>
         </div>

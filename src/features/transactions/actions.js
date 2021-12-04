@@ -10,6 +10,8 @@ import {
   SEARCH_BY_KEYWORD,
 } from "./constants";
 
+let token = JSON.parse(localStorage.getItem("token"));
+
 export const fetchTransaction = () => {
   return async (dispatch, getState) => {
     dispatch({
@@ -26,7 +28,7 @@ export const fetchTransaction = () => {
       let { data } = await axios.get(`${config.api_host}transactions`, {
         params,
         headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjo2LCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM4NDU5MjU3fQ.GGFFw2Zu3vpj-h6ozz8DYudtdS2c-OgI4tHTY9rTjdE`,
+          authorization: `Bearer ${token}`,
         },
       });
 
@@ -51,7 +53,7 @@ export const getOneTransaction = (id) => {
     try {
       let { data } = await axios.get(`${config.api_host}transactions/${id}`, {
         headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjo2LCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM4NDU5MjU3fQ.GGFFw2Zu3vpj-h6ozz8DYudtdS2c-OgI4tHTY9rTjdE`,
+          authorization: `Bearer ${token}`,
         },
       });
 

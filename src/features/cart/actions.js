@@ -11,6 +11,8 @@ import {
   ERROR_CHECKOUT_CART,
 } from "./constants";
 
+let token = JSON.parse(localStorage.getItem("token"));
+
 export const postCart = (data) => {
   return (dispatch) => {
     // dispatch({
@@ -113,7 +115,7 @@ export const checkoutData = (data) => {
         sendData,
         {
           headers: {
-            authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJhZG1pbiBjb2RlYXRob21lIiwidXNlcklkIjo2LCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjM4NDU5MjU3fQ.GGFFw2Zu3vpj-h6ozz8DYudtdS2c-OgI4tHTY9rTjdE`,
+            authorization: `Bearer ${token}`,
           },
         }
       );

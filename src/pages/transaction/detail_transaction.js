@@ -18,7 +18,7 @@ export default function DetailTransaction() {
 
       {!transactions.dataGetOne ? (
         /* <!-- empty oerder --> */
-        <div class="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center h-full">
           <img src={IconEmpty} alt="empty_order" class="mb-20" />
         </div>
       ) : transactions.loadingGetOne ? (
