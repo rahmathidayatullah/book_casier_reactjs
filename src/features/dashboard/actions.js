@@ -19,6 +19,16 @@ export const fetchDashboard = () => {
           authorization: `Bearer ${token}`,
         },
       });
+
+      console.log("data object", data);
+
+      // new data sortir value highest first
+      // let newData = data.data.bestProduct.sort((a, b) => {
+      //   return a.total_quantity + b.total_quantity;
+      // });
+
+      // data.data.bestProduct = newData;
+
       dispatch({
         type: SUCCESS_FETCHING_DASHBOARD,
         payload: data,

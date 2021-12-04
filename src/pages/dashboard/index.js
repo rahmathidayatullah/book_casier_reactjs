@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { config } from "../../config";
 import {
@@ -11,101 +11,107 @@ import {
   Bar,
   PieChart,
   Pie,
+  Sector,
+  ResponsiveContainer,
 } from "recharts";
 import { fetchDashboard } from "../../features/dashboard/actions";
 
+const renderActiveShape = (props) => {
+  const RADIAN = Math.PI / 180;
+  const {
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    startAngle,
+    endAngle,
+    fill,
+    payload,
+    percent,
+    priceProduct,
+  } = props;
+  const sin = Math.sin(-RADIAN * midAngle);
+  const cos = Math.cos(-RADIAN * midAngle);
+  const sx = cx + (outerRadius + 10) * cos;
+  const sy = cy + (outerRadius + 10) * sin;
+  const mx = cx + (outerRadius + 30) * cos;
+  const my = cy + (outerRadius + 30) * sin;
+  const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+  const ey = my;
+  const textAnchor = cos >= 0 ? "start" : "end";
+
+  return (
+    <g>
+      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+        {payload.titleProduct}
+      </text>
+      <Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+      />
+      <Sector
+        cx={cx}
+        cy={cy}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        innerRadius={outerRadius + 6}
+        outerRadius={outerRadius + 10}
+        fill={fill}
+      />
+      <path
+        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
+        stroke={fill}
+        fill="none"
+      />
+      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        y={ey}
+        textAnchor={textAnchor}
+        fill="#333"
+      >{`PV ${priceProduct}`}</text>
+      <text
+        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        y={ey}
+        dy={18}
+        textAnchor={textAnchor}
+        fill="#999"
+      >
+        {`(Rate ${(percent * 100).toFixed(2)}%)`}
+      </text>
+    </g>
+  );
+};
+
 export default function Dashboard() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const onPieEnter = useCallback(
+    (_, index) => {
+      setActiveIndex(index);
+    },
+    [setActiveIndex]
+  );
+
   const dispatch = useDispatch();
   const dashboards = useSelector((state) => state.dashboard);
   console.log("dashboards", dashboards);
   const data = [
-    {
-      name: "Page Ads",
-      uv: 4000,
-      pv: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-    },
-    {
-      name: <span>tes</span>,
-      uv: 2390,
-      pv: 3800,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-    },
-  ];
-  const data01 = [
-    {
-      name: "Group A",
-      value: 400,
-    },
-    {
-      name: "Group B",
-      value: 300,
-    },
-    {
-      name: "Group C",
-      value: 300,
-    },
-    {
-      name: "Group D",
-      value: 200,
-    },
-    {
-      name: "Group E",
-      value: 278,
-    },
-    {
-      name: "Group F",
-      value: 189,
-    },
-  ];
-  const data02 = [
-    {
-      name: "Group A",
-      value: 2400,
-    },
-    {
-      name: "Group B",
-      value: 4567,
-    },
-    {
-      name: "Group C",
-      value: 1398,
-    },
-    {
-      name: "Group D",
-      value: 9800,
-    },
-    {
-      name: "Group E",
-      value: 3908,
-    },
-    {
-      name: "Group F",
-      value: 4800,
-    },
+    { name: "Group A", value: 400 },
+    { name: "Group B", value: 300 },
+    { name: "Group C", value: 300 },
+    { name: "Group D", value: 200 },
+    { name: "Group DD asdasd", value: 200 },
+    { name: "Group DD asdasd", value: 200 },
+    { name: "Group DD asdasd", value: 200 },
+    { name: "Group DD asdasd", value: 200 },
+    { name: "Group DD asdasd", value: 200 },
+    { name: "Group DD asdasd", value: 200 },
   ];
 
   useEffect(() => {
@@ -121,58 +127,43 @@ export default function Dashboard() {
             <BarChart
               width={730}
               height={250}
-              data={data}
-              margin={{
-                top: 20,
-                right: 200,
-                left: 200,
-                bottom: 40,
-              }}
+              data={dashboards?.data?.data?.chart}
               barGap={2}
-              barSize={10}
+              barSize={50}
             >
               <CartesianGrid strokeDasharray="3 3" stroke />
               <XAxis
-                dataKey="name"
+                fontSize={11}
+                dataKey="x"
                 padding={{ left: 10, right: 10 }}
                 fontSize={10}
               />
-              <YAxis padding={10} />
+              <YAxis fontSize={11} padding={10} />
               <Tooltip />
-              <Legend stroke={0} />
+              {/* <Legend stroke={0} /> */}
               <Bar
-                fontSize={100}
+                fontSize={11}
                 wordSpacing={100}
-                dataKey="pv"
-                radius={10}
+                dataKey="y"
                 widths={10}
                 width={10}
                 fill="#8884d8"
               />
-              <Bar dataKey="uv" radius={10} fill="red" />
             </BarChart>
           </div>
           <div className="col-span-7 xl:col-span-3 h-72 shadow-1xl rounded-lg flex items-center justify-center">
-            <PieChart width={730} height={250}>
+            <PieChart width={400} height={400}>
               <Pie
-                data={data01}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={50}
-                fill="#8884d8"
-              />
-              <Pie
-                data={data02}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
+                activeIndex={activeIndex}
+                activeShape={renderActiveShape}
+                data={dashboards?.data?.data?.bestMonth}
+                cx={200}
+                cy={200}
                 innerRadius={60}
                 outerRadius={80}
-                fill="#82ca9d"
-                label
+                fill="#8884d8"
+                dataKey="priceProduct"
+                onMouseEnter={onPieEnter}
               />
             </PieChart>
           </div>
@@ -204,10 +195,10 @@ export default function Dashboard() {
                       ${items.priceProduct}
                     </p>
                     <p className="absolute bottom-4 font-medium text-green-mantis">
-                      452 Unit sold
+                      {items.total_quantity} Unit sold
                     </p>
                     <p className="absolute top-4 right-4 text-white bg-orang bg-orange-pumkin px-3 py-1 rounded-lg">
-                      Top 1
+                      Top {index + 1}
                     </p>
                   </div>
                 </div>
